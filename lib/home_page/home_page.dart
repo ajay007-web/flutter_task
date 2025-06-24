@@ -111,42 +111,38 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Page')),
+      appBar: AppBar(title: const Text('Home Page'),centerTitle: true,),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Expanded(
-                  child: _currentLatLng == null
-                      ? const Center(child: Text('Location not available'))
-                      : GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: _currentLatLng!,
-                            zoom: 16,
-                          ),
-                          myLocationEnabled: true,
-                          onMapCreated: (controller) {
-                            _mapController = controller;
-                          },
-                          markers: {
-                            Marker(
-                              markerId: const MarkerId('current'),
-                              position: _currentLatLng!,
-                            ),
-                          },
-                        ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text('Latitude: ${_currentLatLng?.latitude.toStringAsFixed(6) ?? "-"}'),
-                      const SizedBox(height: 8),
-                      Text('Longitude: ${_currentLatLng?.longitude.toStringAsFixed(6) ?? "-"}'),
-                    ],
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextField(
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Latitude',
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: TextEditingController(
+                      text: _currentLatLng?.latitude.toStringAsFixed(6) ?? '-',
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  TextField(
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Longitude',
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: TextEditingController(
+                      text: _currentLatLng?.longitude.toStringAsFixed(6) ?? '-',
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }
